@@ -48,12 +48,12 @@ public class EventoFestival extends Evento implements FiltroEventos {
     }
 
     /**
-     * Altera a duracao do evento para `duracao` 
-     * @param duracao a nova duracao do evento
+     * Altera a duracao do evento para duracao
+     * @param esporte a nova duracao do evento em dias
      */
     public void setDuracao(int duracao){
         this.duracao = duracao;
-    }
+    }       
 
     /**
      * Retorna o tema do festival
@@ -64,12 +64,12 @@ public class EventoFestival extends Evento implements FiltroEventos {
     }
 
     /**
-     * Altera o tema do festival para `tema`
-     * @param tema o novo tema do evento
+     * Altera o tema do evento para tema
+     * @param esporte o novo tema do evento
      */
     public void setTema(String tema){
         this.tema = tema;
-    }
+    }       
 
     /**
      * Escrita dos atributos do evento de festival

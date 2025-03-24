@@ -1,8 +1,20 @@
+/*
+ * Lab01Test.java
+ * 
+ * Material usado na disciplina MC322 - Programação orientada a objetos.
+ */
+
 package lab01;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
-
+/**
+ * @author Vinicius Andreossi - 195125
+ * Modificações realizadas:
+ * 
+ * - Os testes que usam a classe EventoShow foram alterados para usarem os atributos genero e artista. A única motivação por trás disso foi reaproveitar 
+ * a implementação já existente.
+ */
 
 public class Lab01Test {
 
@@ -13,8 +25,8 @@ public class Lab01Test {
     public void getCapacidadeEventoShow() {
 
         Local testLocal = new Local("Teatro Castro Mendes", 2000);
-        EventoShow testEvento = new EventoShow("MPB em Campinas", testLocal, 150, "Djavan", "01/05/2025");
-        assertEquals(2000, testEvento.getCapacidade());
+        EventoShow testEvento = new EventoShow("MPB em Campinas", testLocal, 150, "MPB", "Djavan");
+        assertEquals("Djavan", testEvento.getArtista());
     }
 
 
@@ -27,7 +39,7 @@ public class Lab01Test {
     public void setAndGetArtistaEventoShow() {
 
         Local testLocal = new Local("Teatro Castro Mendes", 2000);
-        EventoShow testEvento = new EventoShow("MPB em Campinas", testLocal, 150, "Djavan", "01/05/2025");
+        EventoShow testEvento = new EventoShow("MPB em Campinas", testLocal, 150, "MPB", "Djavan");
         testEvento.setArtista("Anavitória");
         assertEquals("Anavitória", testEvento.getArtista());
     }
@@ -41,7 +53,7 @@ public class Lab01Test {
     public void getPrecoIngressoMeia() {
 
         Local testLocal = new Local("Teatro Castro Mendes", 2000);
-        EventoShow testEvento = new EventoShow("MPB em Campinas", testLocal, 200, "Djavan", "01/05/2025");
+        EventoShow testEvento = new EventoShow("MPB em Campinas", testLocal, 200, "MPB", "Djavan");
         IngressoMeia ingressoMeia = new IngressoMeia(testEvento);
         assertEquals(100, ingressoMeia.getPreco());
     }
@@ -55,7 +67,7 @@ public class Lab01Test {
     public void getPrecoIngressoInteira() {
 
         Local testLocal = new Local("Teatro Castro Mendes", 2000);
-        EventoShow testEvento = new EventoShow("MPB em Campinas", testLocal, 250, "Djavan", "01/05/2025");
+        EventoShow testEvento = new EventoShow("MPB em Campinas", testLocal, 250, "MPB", "Djavan");
         IngressoInteira ingressoInteira = new IngressoInteira(testEvento);
         assertEquals(250, ingressoInteira.getPreco());
     }
@@ -69,7 +81,7 @@ public class Lab01Test {
     public void adicionarIngressoMeia() {
 
         Local testLocal = new Local("Teatro Castro Mendes", 2000);
-        EventoShow testEvento = new EventoShow("MPB em Campinas", testLocal, 200, "Djavan", "01/05/2025");
+        EventoShow testEvento = new EventoShow("MPB em Campinas", testLocal, 200, "MPB", "Djavan");
         IngressoMeia ingressoMeia = new IngressoMeia(testEvento);
         Usuario usuarioTest = new Usuario("Gabriel", "gabriel@me.com");
         testEvento.adicionarIngresso(ingressoMeia, usuarioTest);

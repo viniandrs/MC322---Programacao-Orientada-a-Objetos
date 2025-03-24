@@ -48,12 +48,12 @@ public class EventoTeatro extends Evento implements FiltroEventos {
     }
 
     /**
-     * Altera o diretor da peça de teatro para `diretor` 
-     * @param generoMusical o novo diretor da peça de teatro
+     * Altera o diretor da peca para diretor
+     * @param esporte o novo diretor da peca
      */
     public void setDiretor(String diretor){
         this.diretor = diretor;
-    }
+    }    
 
     /**
      * Retorna a duracao da peça de teatro
@@ -64,12 +64,12 @@ public class EventoTeatro extends Evento implements FiltroEventos {
     }
 
     /**
-     * Altera a duracao da peça de teatro para `duracao` 
-     * @param duracao a nova duracao da peça de teatro em horas
+     * Altera a duracao da peca para duracao
+     * @param duracao a duracao da peca em horas
      */
-    public void setDuracao(int duracao){
+    public void setDiretor(int duracao){
         this.duracao = duracao;
-    }
+    }    
 
     /**
      * Escrita dos atributos do evento de teatro

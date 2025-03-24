@@ -8,12 +8,11 @@ package lab01;
 /**
  * Contém a estrutura de implementação de um Local.
  * 
- * @author Gabriel Leite - 216180
- * @author Caio Rhoden - 214129
+ * @author Vinicius Andreossi - 195125
  */
 public class Local {
-    private String nome;
-    private double capacidade;
+    private final String nome;
+    private final double capacidade;
 
     /**
      * Construtor da classe Local
@@ -33,26 +32,10 @@ public class Local {
     }
 
     /**
-     * Altera o nome do local para `nome` 
-     * @param nome o novo nome do local
-     */
-    public void setNome(String nome){
-        this.nome = nome;
-    }
-
-    /**
      * Retorna a capacidade do local
      * @return a capacidade do local
      */
     public double getCapacidade(){
         return capacidade;
-    }
-    
-    /**
-     * Altera a capacidade do local para `capacidade` 
-     * @param capacidade a nova capacidade do local
-     */
-    public void setCapacidade(double capacidade){
-        this.capacidade = capacidade;
     }
 }

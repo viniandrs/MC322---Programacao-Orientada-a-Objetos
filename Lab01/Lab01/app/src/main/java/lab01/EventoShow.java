@@ -48,12 +48,12 @@ public class EventoShow extends Evento implements FiltroEventos {
     }
 
     /**
-     * Altera o gênero musical do show para `generoMusical` 
-     * @param generoMusical o novo gênero musical do show
+     * Altera o genero musical do evento para genero
+     * @param esporte o novo genero musical do evento
      */
-    public void setGeneroMusical(String generoMusical){
-        this.generoMusical = generoMusical;
-    }
+    public void setGeneroMusical(String genero){
+        this.generoMusical = genero;
+    }    
 
     /**
      * Retorna o artista que tocará no show
@@ -64,12 +64,12 @@ public class EventoShow extends Evento implements FiltroEventos {
     }
 
     /**
-     * Altera o artista que tocará no show para `artista` 
-     * @param artista o novo artista que tocará no show
+     * Altera o artista do evento para artista
+     * @param esporte o novo artista do evento
      */
     public void setArtista(String artista){
         this.artista = artista;
-    }
+    }    
 
     /**
      * Escrita dos atributos do evento de show

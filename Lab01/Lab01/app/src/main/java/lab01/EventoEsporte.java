@@ -46,14 +46,14 @@ public class EventoEsporte extends Evento implements FiltroEventos {
     public int getLotacao(){
         return this.lotacao;
     }
-
+    
     /**
-     * Altera a lotacao do evento para `lotacao` 
+     * Altera a lotacao do evento para lotacao
      * @param lotacao a nova lotacao do evento
      */
     public void setLotacao(int lotacao){
         this.lotacao = lotacao;
-    }
+    }        
 
     /**
      * Retorna o tipo de esporte do evento
@@ -64,12 +64,12 @@ public class EventoEsporte extends Evento implements FiltroEventos {
     }
 
     /**
-     * Altera o tipo de esporte do evento para `esporte`
-     * @param esporte o novo tipo de esporte do evento
+     * Altera o esporte do evento para esporte
+     * @param esporte o novo esporte do evento
      */
     public void setEsporte(String esporte){
         this.esporte = esporte;
-    }
+    }       
 
     /**
      * Escrita dos atributos do evento de esporte

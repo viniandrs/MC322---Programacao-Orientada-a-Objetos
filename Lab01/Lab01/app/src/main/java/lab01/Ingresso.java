@@ -15,7 +15,7 @@ package lab01;
  */
 public abstract class Ingresso {
 
-    private Evento evento;
+    private final Evento evento;
 
     /**
      * Construtor da classe Ingresso

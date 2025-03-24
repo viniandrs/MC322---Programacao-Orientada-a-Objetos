@@ -17,11 +17,11 @@ import java.util.List;
  * @author Vinicius Andreossi - 195125s
  */
 public abstract class Evento {
-    private String nome;
-    private Local local;
-    private float precoIngresso;
+    private final String nome;
+    private final Local local;
+    private final float precoIngresso;
     private String categoria;
-    private List<Ingresso> ingressosVendido = new ArrayList<>();
+    private final List<Ingresso> ingressosVendidos = new ArrayList<>();
 
     /**
      * Construtor da classe Evento
@@ -38,9 +38,11 @@ public abstract class Evento {
     /**
      * Vende um ingresso para o Evento
      * @param ingresso o ingresso a ser vendido
+     * @param usuario o usuário que está comprando o ingresso
      */
     public void adicionarIngresso(Ingresso ingresso, Usuario usuario){
-        ingressosVendido.add(ingresso);
+        usuario.adicionarIngresso(ingresso);
+        ingressosVendidos.add(ingresso);
     }
 
     /**
@@ -49,8 +51,8 @@ public abstract class Evento {
      */
     public float calcularFaturamento(){
         float total = 0;
-        for (int i = 0; i <= ingressosVendido.size(); i++){
-            total += ingressosVendido.get(i).getPreco();
+        for (int i = 0; i <= ingressosVendidos.size(); i++){
+            total += ingressosVendidos.get(i).getPreco();
         }
 
         return total;
@@ -65,14 +67,6 @@ public abstract class Evento {
     }
 
     /**
-     * Altera o nome do Evento para `nome` 
-     * @param nome o novo nome do Evento
-     */
-    public void setNome(String nome){
-        this.nome = nome;
-    }
-
-    /**
      * Retorna o preço do ingresso do Evento
      * @return o precoIngresso do Evento
      */
@@ -81,27 +75,11 @@ public abstract class Evento {
     }
 
     /**
-     * Altera o precoIngresso do Evento para `precoIngresso` 
-     * @param precoIngresso o novo precoIngresso do Evento
-     */
-    public void setPrecoIngresso(float precoIngresso){
-        this.precoIngresso = precoIngresso;
-    }
-
-    /**
      * Retorna o Local associado ao Evento
      * @return o Local associado ao Evento
      */
     public Local getLocal(){
         return this.local;
-    }
-
-    /**
-     * Altera o Local associado ao Evento para `local` 
-     * @param local o novo Local associado ao Evento
-     */
-    public void setLocal(Local local){
-        this.local = local;
     }
 
     /**
@@ -118,5 +96,9 @@ public abstract class Evento {
      */
     public void setCategoria(String categoria){
         this.categoria = categoria;
+    }
+
+    public List<Ingresso> getIngressosVendidos() {
+        return ingressosVendidos;
     }
 }
