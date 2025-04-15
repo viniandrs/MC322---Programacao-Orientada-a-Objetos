@@ -18,6 +18,7 @@ public class IngressoMeia extends Ingresso{
      */
     public IngressoMeia(Evento evento) {
         super(evento);
+        this.setTipo("Meia");
     }
 
     /**

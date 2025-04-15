@@ -22,9 +22,7 @@ public class HistoricoEventos {
      * Construtor da classe Historico de Eventos
      */
 
-    public HistoricoEventos() {
-        System.out.println("Historico de Eventos necessita de melhorias nos métodos de busca!");
-    }
+    public HistoricoEventos() {}
 
     /**
      * Adiciona um evento ao historico
@@ -34,58 +32,51 @@ public class HistoricoEventos {
         eventos.add(evento);
     }
 
-    /** 
-     * Procura um evento pelo nome no historico
-     * @param evento a classe do evento a ser procurado
+    /**
+     * Realiza a busca de eventos no historico de acordo com o filtro fornecido
+     * e imprime os resultados
+     * @param filtro o filtro a ser aplicado, deve implementar a interface FiltroEventos
      */
-    public List<Evento> buscarEventosPorTipo(Class eventoProcurado) {
-        List<Evento> eventosEncontrados = new ArrayList<>();
-        for (Evento evento : this.eventos) {
-            if (eventoProcurado.isInstance(evento)) {
-                eventosEncontrados.add(evento);
+    public void printarBusca(FiltroEventos filtro) {
+        List<Evento> eventosFiltrados = buscarEventos(filtro);
+        if (eventosFiltrados.isEmpty()) {
+            System.out.println("Nenhum evento encontrado com o filtro fornecido.");
+        } else {
+            System.out.println("Eventos encontrados:");
+            for (Evento evento : eventosFiltrados) {
+                System.out.println("- " + evento.getNome());
             }
         }
-        
-        if (eventosEncontrados.isEmpty()) {
-            return null;
-        }
-        return eventosEncontrados;
     }
 
-    /** 
-     * Procura um evento pela categoria no historico
-     * @param categoria a categoria do evento a ser procurado
+    /**
+     * Imprime os eventos no historico
      */
-    public List<Evento> buscarEventosPorCategoria(String categoria) {
-        List<Evento> eventosEncontrados = new ArrayList<>();
-        for (Evento evento : this.eventos) {
-            if (evento.getCategoria().equals(categoria)) {
-                eventosEncontrados.add(evento);
+    public void listarEventos() {
+        if (eventos.isEmpty()) {
+            System.out.println("Nenhum evento encontrado.");
+        } else {
+            System.out.println("Eventos no historico:");
+            for (Evento evento : eventos) {
+                System.out.println("- " + evento.getNome());
             }
         }
-
-        if (eventosEncontrados.isEmpty()) {
-            return null;
-        }
-        return eventosEncontrados;
     }
 
-    /** 
-     * Procura um evento pelo nome do local no historico
-     * @param local o nome do local do evento a ser procurado
+    /**
+     * Retorna a lista de eventos filtrados de acordo com o filtro fornecido
+     * @param filtro o filtro a ser aplicado, deve implementar a interface FiltroEventos
+     * @return a lista de eventos filtrados
+     * @see FiltroEventos
      */
-    public List<Evento> buscarEventosPorLocal(String local) {
-        List<Evento> eventosEncontrados = new ArrayList<>();
+    public List<Evento> buscarEventos(FiltroEventos filtro) {
+        List<Evento> eventosFiltrados = new ArrayList<>();
         for (Evento evento : this.eventos) {
-            if (evento.getLocal().getNome().equals(local)) {
-                eventosEncontrados.add(evento);
+            if(filtro.filtrar(evento.getClass())) {
+                eventosFiltrados.add(evento);
             }
         }
-        
-        if (eventosEncontrados.isEmpty()) {
-            return null;
-        }
-        return eventosEncontrados;
+        return eventosFiltrados;
     }
 
     /**

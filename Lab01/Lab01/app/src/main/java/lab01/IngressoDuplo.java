@@ -18,6 +18,7 @@ public class IngressoDuplo extends Ingresso{
      */
     public IngressoDuplo(Evento evento) {
         super(evento);
+        this.setTipo("Duplo");
     }
 
     /**
@@ -27,6 +28,10 @@ public class IngressoDuplo extends Ingresso{
     @Override
     public float getPreco() {
         return this.getEvento().getPrecoIngresso() * 2;
+    }
+
+    public IngressoInteira getIngressoInteira() {
+        return new IngressoInteira(this.getEvento());
     }
     
 }

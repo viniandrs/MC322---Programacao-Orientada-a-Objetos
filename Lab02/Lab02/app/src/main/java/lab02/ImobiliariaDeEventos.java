@@ -29,6 +29,11 @@ public class ImobiliariaDeEventos {
         this.locais.add(local);
     }
 
+    /**
+     * Busca um local na lista de locais disponíveis pelo nome
+     * @param nome o nome do local a ser buscado
+     * @return uma lista de locais encontrados com o nome especificado
+     */
     public List<Local> buscarLocal(String nome) {
         List<Local> locaisEncontrados = new ArrayList<>();
         for (Local local : this.locais) {
@@ -39,14 +44,24 @@ public class ImobiliariaDeEventos {
         return locaisEncontrados;
     }
 
+    /**
+     * Busca um local na lista de locais disponíveis pela capacidade máxima
+     * @param capacidadeMaxima a capacidade máxima do local a ser buscado
+     * @return uma lista de locais encontrados com a capacidade máxima especificada
+     * @throws IllegalArgumentException se a capacidade máxima for menor ou igual a zero
+     */
     public List<Local> buscarLocal(int capacidadeMaxima) {
+        if (capacidadeMaxima <= 0) {
+            throw new IllegalArgumentException("Capacidade máxima deve ser maior que zero.");
+        }
+
         List<Local> locaisEncontrados = new ArrayList<>();
         for (Local local : this.locais) {
             if (local.getCapacidade() == capacidadeMaxima) {
                 locaisEncontrados.add(local);
             }
         }
-        return locaisEncontrados;
+        return locaisEncontrados;   
     }
     
 }

@@ -4,6 +4,8 @@
  * Material usado na disciplina MC322 - Programação orientada a objetos.
  */
 package lab02;
+import lab02.exceptions.CapacidadeInsuficienteException;
+import lab02.exceptions.LocalIndisponivelException;
 
 /**
  * Contém a estrutura de implementação de um Local.
@@ -12,15 +14,30 @@ package lab02;
  */
 public class Local{
     private String nome;
-    private double capacidadeMaxima;
+    private int capacidadeMaxima;
+    private boolean alocado;
+    private Evento eventoAlocado;
 
     /**
      * Construtor da classe Local
      * @param nome o nome do local
      */
-    public Local(String nome, double capacidadeMaxima){
+    public Local(String nome, int capacidadeMaxima){
         this.nome = nome;
         this.capacidadeMaxima = capacidadeMaxima;
+        this.alocado = false;  
+    }
+
+    public void alocarParaEvento(Evento evento) throws LocalIndisponivelException, CapacidadeInsuficienteException {
+        if (evento.getIngressosDisponiveis() > this.capacidadeMaxima) {
+            throw new CapacidadeInsuficienteException("Capacidade insuficiente para o evento " + evento.getNome());
+        }
+        
+        if (this.alocado) {
+            throw new LocalIndisponivelException("Local já alocado para o evento " + this.eventoAlocado.getNome());
+        }
+        this.alocado = true;
+        this.eventoAlocado = evento;
     }
 
     /**
@@ -43,15 +60,15 @@ public class Local{
      * Retorna a capacidade do local
      * @return a capacidade do local
      */
-    public double getCapacidade(){
-        return capacidadeMaxima;
+    public int getCapacidade(){
+        return this.capacidadeMaxima;
     }
     
     /**
      * Altera a capacidade máxima do local para `capacidadeMaxima` 
      * @param capacidadeMaxima a nova capacidade máxima do local
      */
-    public void setCapacidade(double capacidadeMaxima){
+    public void setCapacidade(int capacidadeMaxima){
         this.capacidadeMaxima = capacidadeMaxima;
     }
 }

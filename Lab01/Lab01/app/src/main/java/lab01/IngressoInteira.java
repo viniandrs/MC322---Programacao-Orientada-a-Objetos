@@ -18,6 +18,7 @@ public class IngressoInteira extends Ingresso{
      */
     public IngressoInteira(Evento evento) {
         super(evento);
+        this.setTipo("Inteira");
     }
 
     /**

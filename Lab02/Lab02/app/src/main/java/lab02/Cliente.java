@@ -4,13 +4,18 @@
 package lab02;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import lab02.exceptions.CancelamentoNaoPermitidoException;
+import lab02.exceptions.IngressoNaoEncontradoException;
 
 public class Cliente {
 
     private String nome;
     private String email;
     private List<Ingresso> ingressos;
+    private List<Email> emails;
 
     /**
      * Construtor da classe cliente
@@ -21,6 +26,7 @@ public class Cliente {
         this.nome = nome;
         this.email = email;
         this.ingressos = new ArrayList<>();
+        this.emails = new ArrayList<>();
     }
 
     /**
@@ -48,6 +54,25 @@ public class Cliente {
      */
     public boolean removerIngresso(Ingresso ingresso){
         return this.ingressos.remove(ingresso);
+    }
+
+    /**
+     * Cancela um ingresso associado a um evento
+     * @param evento o evento associado ao ingresso a ser cancelado
+     * @return true se o ingresso foi cancelado com sucesso, false caso contrário
+     * @throws IngressoNaoEncontradoException se o ingresso não for encontrado na lista de ingressos do cliente
+     * @throws CancelamentoNaoPermitidoException se o cancelamento não for permitido
+     */
+    public boolean cancelarIngresso(Evento evento) throws IngressoNaoEncontradoException, CancelamentoNaoPermitidoException {
+        Ingresso ingressoEncontrado = ingressos.stream()
+            .filter(ing -> ing.getEvento().equals(evento)).collect(Collectors.toList()).get(0);
+        if(ingressoEncontrado==null) {
+            throw new IngressoNaoEncontradoException("Ingresso não encontrado");
+        }
+        if(this.removerIngresso(ingressoEncontrado) == false) {
+            throw new CancelamentoNaoPermitidoException("Cancelamento não permitido"); // Pensar em caso de teste para essa condicao
+        }
+        return this.removerIngresso(ingressoEncontrado);
     }
 
     /**

@@ -34,6 +34,14 @@ public class Ingresso {
     }
 
     /**
+     * Retorna o evento associado ao Ingresso
+     * @return o evento associado ao Ingresso
+     */
+    public Evento getEvento() {
+        return this.evento;
+    }
+     
+    /**
      * Define o evento associado ao Ingresso
      * @param evento o evento associado ao Ingresso
      */

@@ -2,6 +2,8 @@ package lab02;
 import java.util.ArrayList;
 import java.util.List;
 
+import lab02.filters.Filter;
+
 public class Organizadora {
 
     private String nome;
@@ -68,4 +70,18 @@ public class Organizadora {
         return eventos.add(evento);
     }
     
+    /**
+     * Busca eventos na lista de eventos da organizadora com base no filtro fornecido
+     * @param filtro o filtro a ser aplicado na busca
+     * @return uma lista de eventos que atendem ao filtro
+     */
+    public List<Evento> buscarEventos(Filter<Evento> filtro) {
+        List<Evento> eventosFiltrados = new ArrayList<>();
+        for (Evento evento : this.eventos) {
+            if (filtro.filtrar(evento)) {
+                eventosFiltrados.add(evento);
+            }
+        }
+        return eventosFiltrados;
+    }
 }

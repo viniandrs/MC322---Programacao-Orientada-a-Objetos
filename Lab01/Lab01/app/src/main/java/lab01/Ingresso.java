@@ -9,13 +9,11 @@ package lab01;
 /**
  * Contém a estrutura de implementação de um Ingresso.
  * 
- * @author Gabriel Leite - 216180
- * @author Caio Rhoden - 214129
  * @author Vinicius Andreossi - 195125
  */
 public abstract class Ingresso {
-
     private final Evento evento;
+    private String tipo;
 
     /**
      * Construtor da classe Ingresso
@@ -37,6 +35,22 @@ public abstract class Ingresso {
      */
     public Evento getEvento(){
         return this.evento;
+    }
+
+    /**
+     * Retorna o tipo do Ingresso
+     * @return o tipo do Ingresso
+     */
+    public String getTipo(){
+        return this.tipo;
+    }
+
+    /**
+     * Define o tipo do Ingresso
+     * @param tipo o tipo do Ingresso
+     */
+    public void setTipo(String tipo){
+        this.tipo = tipo;
     }
     
 }

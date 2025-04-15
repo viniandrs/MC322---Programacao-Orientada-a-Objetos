@@ -3,7 +3,7 @@
  */
 
 package lab02;
-
+import lab02.exceptions.IngressoEsgotadoException;
 
 public abstract class Evento {
     protected String nome;
@@ -11,6 +11,7 @@ public abstract class Evento {
     protected double precoIngresso; // preço base do ingresso
     protected Organizadora organizadora;
     protected String data;
+    protected int ingressos_disponiveis;
 
     /**
      * Construtor da classe Evento
@@ -23,7 +24,31 @@ public abstract class Evento {
         this.precoIngresso = precoIngresso; // modificar para representar o preço base do ingresso
         this.organizadora = organizadora;
         this.data = data;
+        this.ingressos_disponiveis = local.getCapacidade();
+    }
 
+    public void venderIngresso(Cliente cliente) throws IngressoEsgotadoException {
+        if(this.getIngressosDisponiveis() == 0) {
+            throw new IngressoEsgotadoException("Ingressos esgotados para o evento " + this.nome);
+        } 
+        Ingresso ingresso = new Ingresso(this, precoIngresso);
+        cliente.adicionarIngresso(ingresso);
+        this.ingressos_disponiveis--;
+    }
+
+    /**
+     * Retorna a quantidade de ingressos disponíveis
+     * @return a quantidade de ingressos disponíveis
+     */
+    public int getIngressosDisponiveis() {
+        return this.ingressos_disponiveis;
+    }
+    /**
+     * Altera a quantidade de ingressos disponíveis para `ingressos_disponiveis` 
+     * @param ingressos_disponiveis a nova quantidade de ingressos disponíveis
+     */
+    public void setIngressosDisponiveis(int ingressos_disponiveis) {
+        this.ingressos_disponiveis = ingressos_disponiveis;
     }
 
     /**
@@ -31,7 +56,7 @@ public abstract class Evento {
      * @return o nome do Evento
      */
     public String getNome(){
-        return nome;
+        return this.nome;
     }
 
     /**

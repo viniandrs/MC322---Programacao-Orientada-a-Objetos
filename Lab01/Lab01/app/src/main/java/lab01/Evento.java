@@ -12,16 +12,14 @@ import java.util.List;
 /**
  * Contém a estrutura de implementação de um Evento.
  * 
- * @author Gabriel Leite - 216180
- * @author Caio Rhoden - 214129
  * @author Vinicius Andreossi - 195125s
  */
 public abstract class Evento {
     private final String nome;
     private final Local local;
     private final float precoIngresso;
-    private String categoria;
     private final List<Ingresso> ingressosVendidos = new ArrayList<>();
+    private String categoria;
 
     /**
      * Construtor da classe Evento
@@ -41,8 +39,16 @@ public abstract class Evento {
      * @param usuario o usuário que está comprando o ingresso
      */
     public void adicionarIngresso(Ingresso ingresso, Usuario usuario){
-        usuario.adicionarIngresso(ingresso);
-        ingressosVendidos.add(ingresso);
+        if (ingresso instanceof IngressoDuplo ingressoDuplo){
+            for(int i = 0; i < 2; i++){
+                usuario.adicionarIngresso(ingressoDuplo.getIngressoInteira());
+                ingressosVendidos.add(ingressoDuplo.getIngressoInteira());
+            }
+        }
+        else {
+            usuario.adicionarIngresso(ingresso);
+            ingressosVendidos.add(ingresso);
+        }
     }
 
     /**
@@ -50,11 +56,13 @@ public abstract class Evento {
      * @return o faturamento do Evento
      */
     public float calcularFaturamento(){
+        System.out.println("Calculando faturamento do evento " + this.getNome());
         float total = 0;
-        for (int i = 0; i <= ingressosVendidos.size(); i++){
+        for (int i = 0; i < ingressosVendidos.size(); i++){
+            System.out.println("Ingresso " + i + ": " + ingressosVendidos.get(i).getPreco());
             total += ingressosVendidos.get(i).getPreco();
         }
-
+        System.out.println("Faturamento total do evento " + this.getNome() + ": " + total);
         return total;
     }
 
@@ -68,7 +76,7 @@ public abstract class Evento {
 
     /**
      * Retorna o preço do ingresso do Evento
-     * @return o precoIngresso do Evento
+     * @return o preco do ingresso do Evento
      */
     public float getPrecoIngresso(){
         return this.precoIngresso;

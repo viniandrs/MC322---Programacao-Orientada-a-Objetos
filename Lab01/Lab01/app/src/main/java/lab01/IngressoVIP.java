@@ -18,6 +18,7 @@ public class IngressoVIP extends Ingresso{
      */
     public IngressoVIP(Evento evento) {
         super(evento);
+        this.setTipo("VIP");
     }
 
     /**

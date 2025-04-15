@@ -118,10 +118,27 @@ public class Lab01Test {
 
         Local testLocal = new Local("Teatro Castro Mendes", 2000);
         EventoShow testEvento1 = new EventoShow("MPB em Campinas", testLocal, 200, "Djavan", "01/05/2025");
-        EventoShow testEvento2 = new EventoShow("MPB em Campinas", testLocal, 200, "Anavitória", "02/05/2025");        
+        EventoEsporte testEvento2 = new EventoEsporte("Guarani vs Ponte Preta", testLocal, 200, 2000, "Futebol");
         HistoricoEventos historicoTeste = new HistoricoEventos();
         historicoTeste.adicionarEvento(testEvento1);
         historicoTeste.adicionarEvento(testEvento2);
-        assertEquals(2, historicoTeste.buscarEventosPorTipo(EventoShow.class).size());
+        assertEquals(1, historicoTeste.buscarEventos(testEvento1).size());
+    }
+
+    /**
+     * Testa o ingresso do tipo Duplo. 
+     * Checa se ao comprar um ingresso duplo, o usuário tem dois ingressos na lista de ingressos
+     */
+    @Test
+    public void comprarIngressoDuplo() {
+
+        Local testLocal = new Local("Teatro Castro Mendes", 2000);
+        EventoShow testEvento1 = new EventoShow("MPB em Campinas", testLocal, 200, "Djavan", "01/05/2025");
+        IngressoDuplo ingressoDuplo = new IngressoDuplo(testEvento1);       
+        Usuario testUser = new Usuario("Zé", "ze@gmail.com" );
+        testEvento1.adicionarIngresso(ingressoDuplo, testUser);
+        testUser.listarIngressos();
+        assertEquals(2, testUser.getIngressos().size());
+        assertEquals(2, testEvento1.getIngressosVendidos().size());
     }
 }

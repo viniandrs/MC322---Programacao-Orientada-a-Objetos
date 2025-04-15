@@ -12,14 +12,12 @@ import java.util.List;
 /**
  * Contém a estrutura de implementação de um Usuario.
  * 
- * @author Gabriel Leite - 216180
- * @author Caio Rhoden - 214129
  * @author Vinicius Andreossi - 195125
  */
 public class Usuario {
 
-    private String nome;
-    private String email;
+    private final String nome;
+    private final String email;
     private final List<Ingresso> ingressos = new ArrayList<>();
 
     /**
@@ -41,11 +39,30 @@ public class Usuario {
     }
 
     /**
+     * Lista todos os ingresso adquiridos pelo usuário
+     * @param ingresso o ingresso a ser adicionado
+     */
+    public void listarIngressos() {
+        System.out.println("Ingressos adquiridos por " + this.getNome() + ":");
+        for (Ingresso ingresso : ingressos) {
+            System.out.println("- \"" + ingresso.getTipo() + "\" para o evento \"" + ingresso.getEvento().getNome() + "\"");
+        }
+    }
+
+    /**
      * Retorna o último ingresso adicionado à lista de ingressos do usuário
      * @return o último ingresso adicionado
      */
     public Ingresso getIngresso() {
         return ingressos.get(ingressos.size() - 1);
+    }
+
+    /**
+     * Retorna a lista de ingressos do usuário
+     * @return a lista de ingressos do usuário
+     */
+    public List<Ingresso> getIngressos() {
+        return ingressos;
     }
 
     /**

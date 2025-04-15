@@ -32,8 +32,8 @@ public class EventoTeatro extends Evento implements FiltroEventos {
      * @param evento o evento a ser verificado
      */
     @Override
-    public boolean filtrar(Evento evento){
-        if (evento instanceof EventoTeatro) {
+    public boolean filtrar(Class filtro){
+        if (filtro.isInstance(this)) {
             return true;
         }
         return false;
@@ -74,7 +74,7 @@ public class EventoTeatro extends Evento implements FiltroEventos {
     /**
      * Escrita dos atributos do evento de teatro
      */
-    public void dump() {
+    public void exibirDetalhes() {
         System.out.println("Nome do evento: " + this.getNome());
         System.out.println("Local: " + this.getLocal().getNome());
         System.out.println("Preço do ingresso: " + this.getPrecoIngresso());
