@@ -3,14 +3,16 @@
  */
 package lab02;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import lab02.exceptions.CancelamentoNaoPermitidoException;
 import lab02.exceptions.IngressoNaoEncontradoException;
+import lab02.notificavel.Email;
 
-public class Cliente {
+public class Cliente implements Comparable<Cliente> {
 
     private String nome;
     private String email;
@@ -76,6 +78,56 @@ public class Cliente {
     }
 
     /**
+     * Adiciona um email e um ingresso ao cliente.
+     * @param ingresso o ingresso a ser adicionado
+     * @param email o email a ser adicionado
+     * @return true se o ingresso foi adicionado com sucesso, false caso contrário
+     */
+    public boolean comprarPorEmail(Ingresso ingresso, String emailRemetente) {
+        if (ingresso.getEvento().getIngressosDisponiveis() > 0) {
+            this.adicionarIngresso(ingresso);
+            Email novoEmail = new Email(emailRemetente, this.email, "Compra de ingresso", "Você comprou um ingresso para o evento " + ingresso.getEvento().getNome());
+            this.adicionarEmail(novoEmail);
+            return true;
+        }
+        System.out.println("Ingressos esgotados. Compra não realizada.");
+        return false;
+    }
+
+    /**
+     * Adiciona um email à lista de emails do cliente
+     * @param email o email a ser adicionado
+     */
+    private void adicionarEmail(Email email){
+        this.emails.add(email);
+        email.notificar();
+    }
+
+    /**
+     * Compara se o cliente fornecido possui ingressos para os mesmos eventos que este cliente.
+     * @param cliente o cliente a ser comparado
+     * @return true se o cliente possui ingressos para os mesmos eventos, false caso contrário
+     */
+    @Override
+    public boolean compareTo(Cliente cliente) {
+        HashSet<String> myEventos = new HashSet<>();
+
+        // criando um set com os eventos do cliente
+        for(Ingresso myIngresso: this.ingressos){
+            myEventos.add(myIngresso.getEvento().getNome());
+        }
+
+        // verificando se o cliente possui ingressos para os mesmos eventos
+        for(Ingresso otherIngresso: cliente.getIngressos()){
+            if(!myEventos.contains(otherIngresso.getEvento().getNome())){
+                return false;
+            }
+        }
+
+        return true;
+    }   
+
+    /**
      * Retorna a lista de ingressos do cliente
      * @return a lista de ingressos do cliente
      */
@@ -113,6 +165,14 @@ public class Cliente {
      */
     public void setEmail(String email){
         this.email = email;
+    }
+
+    /**
+     * Retorna a lista de emails do cliente
+     * @return a lista de emails do cliente
+     */
+    public List<Email> getEmails(){
+        return this.emails; 
     }
 
 }

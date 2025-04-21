@@ -84,4 +84,22 @@ public class Organizadora {
         }
         return eventosFiltrados;
     }
+
+    /**
+     * Escreve os eventos da organizadora no console
+     */
+    public void listEventos() {
+        System.out.println("Eventos da organizadora " + this.nome + ":");
+        for (Evento evento : eventos) {
+            System.out.println("  > " + evento.getNome() + " - " + evento.getLocal().getNome() + " - " + evento.getData());
+        }
+    }
+
+    public List<Evento> getEventos() {
+        return eventos;
+    }
+
+    public String getNome() {
+        return this.nome;
+    }
 }

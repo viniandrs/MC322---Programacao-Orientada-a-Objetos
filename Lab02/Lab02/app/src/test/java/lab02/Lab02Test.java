@@ -5,8 +5,16 @@
  */
 
 package lab02;
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
+
+import lab02.caracteristicadeevento.EventoEmBar;
+import lab02.caracteristicadeevento.EventoMusicaAoVivo;
+import lab02.notificavel.Email;
 
 /**
  * @author Vinicius Andreossi - 195125
@@ -17,128 +25,95 @@ import org.junit.jupiter.api.Test;
  */
 
 public class Lab02Test {
-
-    /**
-     * Testa se o getCapacidadeEvento retorna a capacidade do local do Evento
-     */
-    @Test
-    public void getCapacidadeEventoShow() {
-
-        Local testLocal = new Local("Teatro Castro Mendes", 2000);
-        EventoShow testEvento = new EventoShow("MPB em Campinas", testLocal, 150, "MPB", "Djavan");
-        assertEquals("Djavan", testEvento.getArtista());
-    }
-
-
-    /**
-     * Testa o get e seter do EventoShow para o atributo artista
-     * Espera-se a troca de "01/05/2025" por "Anavitória"
-     */
-
-    @Test
-    public void setAndGetArtistaEventoShow() {
-
-        Local testLocal = new Local("Teatro Castro Mendes", 2000);
-        EventoShow testEvento = new EventoShow("MPB em Campinas", testLocal, 150, "MPB", "Djavan");
-        testEvento.setArtista("Anavitória");
-        assertEquals("Anavitória", testEvento.getArtista());
-    }
-
-    /**
-     * Testa o método getPreco para o IngressoMeia
-     * Espera o retorno da metade do valor (100) do ingresso do EventoShow criado (200)
-     */
-
-    @Test
-    public void getPrecoIngressoMeia() {
-
-        Local testLocal = new Local("Teatro Castro Mendes", 2000);
-        EventoShow testEvento = new EventoShow("MPB em Campinas", testLocal, 200, "MPB", "Djavan");
-        IngressoMeia ingressoMeia = new IngressoMeia(testEvento);
-        assertEquals(100, ingressoMeia.getPreco());
-    }
-
-
-    /**
-     * Testa o método getPreco para o IngressoInteira
-     * Espera o retorno do valor (250) do ingresso do EventoShow criado
-     */
-    @Test
-    public void getPrecoIngressoInteira() {
-
-        Local testLocal = new Local("Teatro Castro Mendes", 2000);
-        EventoShow testEvento = new EventoShow("MPB em Campinas", testLocal, 250, "MPB", "Djavan");
-        IngressoInteira ingressoInteira = new IngressoInteira(testEvento);
-        assertEquals(250, ingressoInteira.getPreco());
-    }
-
-    /**
-     * Testa o método adicionarIngressoMeia
-     * Verifica se o ingresso foi adicionado à lista de ingressos vendidos
-     * e se o usuario agora tem o ingresso
-     */
-    @Test
-    public void adicionarIngressoMeia() {
-
-        Local testLocal = new Local("Teatro Castro Mendes", 2000);
-        EventoShow testEvento = new EventoShow("MPB em Campinas", testLocal, 200, "MPB", "Djavan");
-        IngressoMeia ingressoMeia = new IngressoMeia(testEvento);
-        Usuario usuarioTest = new Usuario("Gabriel", "gabriel@me.com");
-        testEvento.adicionarIngresso(ingressoMeia, usuarioTest);
-        assertEquals(1, testEvento.getIngressosVendidos().size());
-        assertEquals(ingressoMeia, usuarioTest.getIngresso());
-
-    }
+    private Cliente testCliente;
+    private Local testLocal;
+    private Organizadora testOrg;
+    private EventoShow testEvento;
+    private Ingresso testIng;
     
-    /**
-     * Testa o método adicionarEvento do HistoricoEventos
-     * Verifica se os dois eventos foram adicionados à lista de eventos
-     * do HistoricoEventos
-     */
-    @Test
-    public void adicionaEventoemHistorico() {
 
-        Local testLocal = new Local("Teatro Castro Mendes", 2000);
-        EventoShow testEvento1 = new EventoShow("MPB em Campinas", testLocal, 200, "Djavan", "01/05/2025");
-        EventoShow testEvento2 = new EventoShow("MPB em Campinas", testLocal, 200, "Anavitória", "02/05/2025");
-        HistoricoEventos historicoTeste = new HistoricoEventos();
-        historicoTeste.adicionarEvento(testEvento1);
-        historicoTeste.adicionarEvento(testEvento2);
-        assertEquals(2, historicoTeste.getEventos().size());
-
+    private void reset(){
+        this.testCliente = new Cliente("Joao", "joao@mail.com");
+        this.testLocal = new Local("Teatro Castro Mendes", 2000);
+        this.testOrg = new Organizadora("Virada Cultural", 1234, "Teatro Municipal");
+        this.testEvento = new EventoShow("MPB em Campinas", testLocal, 150, testOrg, "15/04/2025", "Djavan");
+        this.testIng = new Ingresso(this.testEvento, 150);
     }
 
     /**
-     * Testa o método buscarEventosPorTipo do HistoricoEventos
-     * Verifica se os dois eventos do tipo EventoShow foram encontrados
-     * pela busca
+     * Testa a compra por email
      */
     @Test
-    public void buscarEventosPorTipo() {
-
-        Local testLocal = new Local("Teatro Castro Mendes", 2000);
-        EventoShow testEvento1 = new EventoShow("MPB em Campinas", testLocal, 200, "Djavan", "01/05/2025");
-        EventoEsporte testEvento2 = new EventoEsporte("Guarani vs Ponte Preta", testLocal, 200, 2000, "Futebol");
-        HistoricoEventos historicoTeste = new HistoricoEventos();
-        historicoTeste.adicionarEvento(testEvento1);
-        historicoTeste.adicionarEvento(testEvento2);
-        assertEquals(1, historicoTeste.buscarEventos(testEvento1).size());
+    public void comprarPorEmail() {   
+        this.reset();   
+        this.testCliente.comprarPorEmail(this.testIng, "vinicius@mail.com"); 
+        assertEquals(this.testEvento, this.testCliente.getIngressos().get(0).getEvento());
     }
 
     /**
-     * Testa o ingresso do tipo Duplo. 
-     * Checa se ao comprar um ingresso duplo, o usuário tem dois ingressos na lista de ingressos
+     * Testa uma compra por email para um evento sem capacidade
      */
     @Test
-    public void comprarIngressoDuplo() {
+    public void compraEmailSemCapacidade() {   
+        this.reset();   
+        Local localSemCapacidade = new Local("Teatro Castro Mendes", 0);
+        Evento eventoSemCapacidade = new EventoShow("MPB em Campinas", localSemCapacidade, 150, this.testOrg, "15/04/2025", "Djavan");
+        Ingresso ingressoSemCapacidade = new Ingresso(eventoSemCapacidade, 150);
+        assertFalse(this.testCliente.comprarPorEmail(ingressoSemCapacidade, "vinicius@mail.com"));
+    }
 
-        Local testLocal = new Local("Teatro Castro Mendes", 2000);
-        EventoShow testEvento1 = new EventoShow("MPB em Campinas", testLocal, 200, "Djavan", "01/05/2025");
-        IngressoDuplo ingressoDuplo = new IngressoDuplo(testEvento1);       
-        Usuario testUser = new Usuario("Zé", "ze@gmail.com" );
-        testEvento1.adicionarIngresso(ingressoDuplo, testUser);
-        testUser.listarIngressos();
-        assertEquals(2, testUser.getIngressos().size());
-        assertEquals(2, testEvento1.getIngressosVendidos().size());
+    /**
+     * Testa a visualizacao de um email
+     */
+    @Test
+    public void visualizarEmail() {   
+        this.reset();   
+        this.testCliente.comprarPorEmail(this.testIng, "vinicius@mail.com"); 
+        Email mail = this.testCliente.getEmails().get(0);
+        mail.visualizar();
+        assertEquals(true, mail.getStatus());
+    }
+
+    /**
+     * Testa a comparacao entre dois clientes que vão aos mesmos eventos
+     */
+
+    @Test
+    public void compararClientes() {
+        this.reset();
+        Cliente cliente2 = new Cliente("Joao", "joao@mail.com");
+
+        this.testCliente.comprarPorEmail(this.testIng, "organizadora@gmail.com");
+        cliente2.comprarPorEmail(this.testIng, "organizadora@gmail.com");
+        assertTrue(this.testCliente.compareTo(cliente2));
+    }
+
+    /**
+     * Testa a comparacao entre dois clientes que vão a eventos diferentes
+     */
+
+    @Test
+    public void compararClientesDiferentes() {
+        this.reset();
+        Cliente cliente2 = new Cliente("Joao", "joao@mail.com");
+        EventoJogo evento2 = new EventoJogo("Guarani vs Ponte Preta", testLocal, 200, testOrg, "15/04/2025", Arrays.asList("sup1", "sup2", "sup3"));
+        Ingresso ingresso2 = new Ingresso(evento2, 150);
+
+        this.testCliente.comprarPorEmail(this.testIng, "organizadora@gmail.com");
+        cliente2.comprarPorEmail(ingresso2, "organizadora@gmail.com");
+        assertFalse(this.testCliente.compareTo(cliente2));
+    }
+
+    /**
+     * Testa as características de um evento
+     */
+
+    @Test
+    public void testarComposicaoEvento() {
+        this.reset();
+        this.testEvento.adicionarCaracteristica(new EventoEmBar("Bar do Zé", "18h", "2h"));
+        this.testEvento.adicionarCaracteristica(new EventoMusicaAoVivo("Djavan", "MPB"));
+        this.testEvento.descricaoDoEvento();
+        assertEquals(2, this.testEvento.getCaracteristicas().size());
     }
 }

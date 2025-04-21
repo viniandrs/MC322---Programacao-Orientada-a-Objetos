@@ -38,6 +38,7 @@ public class Local{
         }
         this.alocado = true;
         this.eventoAlocado = evento;
+        System.out.println("Local " + this.nome + " alocado para o evento " + evento.getNome());
     }
 
     /**

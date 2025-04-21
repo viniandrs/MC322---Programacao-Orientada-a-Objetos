@@ -35,7 +35,16 @@ public class EventoShow extends Evento {
     * Retorna o preço do Ingresso do Evento
     * @return o preço do Ingresso do Evento
     */
+    @Override
     public double getPrecoIngresso() {
         return this.precoIngresso;
+    }
+
+    /**
+     * Retorna o artista do Evento
+     * @return o artista do Evento 
+     */
+    public String getArtista() {
+        return artista;
     }
 }

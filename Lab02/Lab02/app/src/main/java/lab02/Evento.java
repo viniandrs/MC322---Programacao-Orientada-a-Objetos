@@ -3,6 +3,10 @@
  */
 
 package lab02;
+import java.util.ArrayList;
+import java.util.List;
+
+import lab02.caracteristicadeevento.CaracteristicaDeEvento;
 import lab02.exceptions.IngressoEsgotadoException;
 
 public abstract class Evento {
@@ -12,6 +16,7 @@ public abstract class Evento {
     protected Organizadora organizadora;
     protected String data;
     protected int ingressos_disponiveis;
+    private List<CaracteristicaDeEvento> caracteriscas;
 
     /**
      * Construtor da classe Evento
@@ -25,6 +30,7 @@ public abstract class Evento {
         this.organizadora = organizadora;
         this.data = data;
         this.ingressos_disponiveis = local.getCapacidade();
+        this.caracteriscas = new ArrayList<>();
     }
 
     public void venderIngresso(Cliente cliente) throws IngressoEsgotadoException {
@@ -34,6 +40,33 @@ public abstract class Evento {
         Ingresso ingresso = new Ingresso(this, precoIngresso);
         cliente.adicionarIngresso(ingresso);
         this.ingressos_disponiveis--;
+    }
+
+    /**
+     * Adiciona uma característica ao evento
+     * @param caracteristica a característica a ser adicionada
+     */
+    public void adicionarCaracteristica(CaracteristicaDeEvento caracteristica) {
+        this.caracteriscas.add(caracteristica);
+    }
+
+    public void descricaoDoEvento() {
+        System.out.println("Evento: " + this.nome);
+        System.out.println("Local: " + this.local.getNome());
+        System.out.println("Data: " + this.data);
+        System.out.println("Preço do ingresso: R$" + this.precoIngresso);
+        System.out.println("Ingressos disponíveis: " + this.ingressos_disponiveis);
+        System.out.println("Características:");
+        for (CaracteristicaDeEvento caracteristica : this.caracteriscas) {
+            caracteristica.descricao();
+        }
+    }
+
+    /**
+     * Retorna a lista de características do evento
+     */
+    public List<CaracteristicaDeEvento> getCaracteristicas() {
+        return this.caracteriscas;
     }
 
     /**
