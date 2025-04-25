@@ -32,15 +32,12 @@ public class Cliente implements Comparable<Cliente> {
     }
 
     /**
-     * Adiciona um ingresso à lista de ingressos do cliente
+     * Adiciona um ingressos à lista de ingressos do cliente
      * @param ingresso o ingresso a ser adicionado
-     * @return true se o ingresso foi adicionado com sucesso, false caso contrário
      */
-
-    public void adicionarIngresso(Ingresso ingresso){
+    public void adicionarIngresso(Ingresso ingresso) {
         this.ingressos.add(ingresso);
     }
-
     /**
      * Adiciona uma lista de ingressos à lista de ingressos do cliente
      * @param novosIngressos a lista de ingressos a serem adicionados
@@ -84,15 +81,24 @@ public class Cliente implements Comparable<Cliente> {
      * @return true se o ingresso foi adicionado com sucesso, false caso contrário
      */
     public boolean comprarPorEmail(Ingresso ingresso, String emailRemetente) {
-        if (ingresso.getEvento().getIngressosDisponiveis() > 0) {
-            this.adicionarIngresso(ingresso);
-            Email novoEmail = new Email(emailRemetente, this.email, "Compra de ingresso", "Você comprou um ingresso para o evento " + ingresso.getEvento().getNome());
-            this.adicionarEmail(novoEmail);
-            return true;
+        if (ingresso.getEvento().getIngressosDisponiveis() <= 0) {
+            System.out.println("Ingressos esgotados. Compra não realizada.");
+            return false;
         }
-        System.out.println("Ingressos esgotados. Compra não realizada.");
-        return false;
-    }
+        
+        try {
+            ingresso.getEvento().venderIngresso(this, ingresso);
+        }
+        catch (Exception e) {
+            System.out.println("ERRO: exception ao comprar ingresso ->" + e.getMessage());
+            return false;
+        }
+            
+        Email novoEmail = new Email(emailRemetente, this.email, 
+            "Compra de ingresso", "Você comprou um ingresso para o evento " + ingresso.getEvento().getNome());
+        this.adicionarEmail(novoEmail);
+        return true;
+    }   
 
     /**
      * Adiciona um email à lista de emails do cliente
@@ -126,6 +132,13 @@ public class Cliente implements Comparable<Cliente> {
 
         return true;
     }   
+
+    public void listarIngressos() {
+        System.out.println("Ingressos do cliente " + this.nome + ":");
+        for (Ingresso ingresso : this.ingressos) {
+            System.out.println("> " + ingresso);
+        }
+    }
 
     /**
      * Retorna a lista de ingressos do cliente

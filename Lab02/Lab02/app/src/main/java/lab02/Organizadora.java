@@ -69,6 +69,23 @@ public class Organizadora {
         Evento evento = new EventoShow(nome, local, precoIngresso, organizadora, data, artista);
         return eventos.add(evento);
     }
+
+    /**
+     * Cancela o ingresso de um cliente para um evento
+     * @param evento o evento associado ao ingresso a ser cancelado
+     * @param nomeCliente o nome do cliente que comprou o ingresso
+     * @return true se o ingresso foi cancelado com sucesso, false caso contrário
+     */
+    public boolean cancelarIngresso(Cliente cliente, Evento evento) {
+        try {
+            cliente.cancelarIngresso(evento);
+            return true;
+        }
+        catch (Exception e) {
+            System.out.println("ERRO ao cancelar ingresso: " + e.getMessage());
+            return false;
+        }
+    }
     
     /**
      * Busca eventos na lista de eventos da organizadora com base no filtro fornecido

@@ -5,9 +5,9 @@
 package lab02;
 
 import java.util.Arrays;
-import java.util.List;
 
 import lab02.filters.EventoPorLocalFilter;
+import lab02.filters.EventoPorNomeFilter;
 
 /**
  * Contém a estrutura de implementação da aplicação.
@@ -63,30 +63,51 @@ public class App {
         } catch (Exception e) {
             System.out.println("ERROR: " + e.getMessage());
         }
-        
-        // DEMONSTRAÇÃO 3: Busca por evento utilizando filtro
+
+        // DEMONSTRAÇÃO 3: Venda de ingressos com erro de ingressos esgotados
         System.out.println("********************************************");
-        System.out.println("Demonstração 2: Busca por evento utilizando filtro");
+        System.out.println("Demonstração 3: Venda de ingressos com erro de ingressos esgotados");
 
-        System.out.println("Buscando o evento criado pela " + organizadora1.getNome() + " no local " + bar_do_ze.getNome());
+        // - buscando o evento desejado utilizando um filtro
+        System.out.println("> Buscando evento: Evento Teste com 1 pessoa");
+        Evento evento_esgotado = organizadora1.buscarEventos(new EventoPorNomeFilter("Evento Teste com 1 pessoa")).get(0);
+        System.out.println("Ingressos disponíveis para o evento " + evento_esgotado.getNome() + ": " + evento_esgotado.getIngressosDisponiveis());
 
-        EventoPorLocalFilter filtro_por_local = new EventoPorLocalFilter(bar_do_ze);
-        List<Evento> shows_no_bar_do_ze = organizadora1.buscarEventos(filtro_por_local);
-
-        System.out.println("Eventos encontrados:");
-        for (Evento evento : shows_no_bar_do_ze) {
-            System.out.println(evento.getNome() + " - " + evento.getLocal().getNome() + " - " + evento.getData());
-        }
-
-        // DEMONSTRAÇÃO 3: Compra de ingresso por email
-        System.out.println("********************************************");
-        System.out.println("Demonstração 3: Compra de ingresso por email");
-
-        EventoShow show = (EventoShow) shows_no_bar_do_ze.get(0);
-        Ingresso ingresso_show = new Ingresso(show, show.getPrecoIngresso());
-        cliente1.comprarPorEmail(ingresso_show, "baladaeventos@mail.com");
+        // - comprando dois ingressos para o evento
+        Ingresso ingresso_evento_esgotado = new Ingresso(evento_esgotado, evento_esgotado.getPrecoIngresso());
+        cliente1.comprarPorEmail(ingresso_evento_esgotado, "baladaeventos@mail.com");
         cliente1.getEmails().get(0).visualizar();
         cliente1.getEmails().get(0).notificar();
+
+        System.out.println("Ingressos disponíveis para o evento " + evento_esgotado.getNome() + ": " + evento_esgotado.getIngressosDisponiveis());
+        cliente1.comprarPorEmail(ingresso_evento_esgotado, "baladaeventos@mail.com");
+        System.out.println();
+
+        cliente1.listarIngressos();
+        
+        // DEMONSTRAÇÃO 4: Cancelamento de ingresso com erro de ingresso não encontrado e cancelamento não permitido
+        System.out.println("********************************************");
+        System.out.println("Demonstração 4: Cancelamento de ingresso com erro de ingresso não encontrado e cancelamento não permitido");
+
+        Evento mpb_ao_vivo = organizadora1.buscarEventos(new EventoPorNomeFilter("MPB Ao Vivo")).get(0);
+        organizadora1.cancelarIngresso(cliente1, mpb_ao_vivo);
+        organizadora1.cancelarIngresso(cliente1, evento_esgotado);
+
+        // DEMONSTRAÇÃO 5: Busca por filtro de local
+        System.out.println("********************************************");
+        System.out.println("Busca por filtro de local");
+
+        // - adicionando novos ingressos para o cliente 1
+        Ingresso ingresso_mpb = new Ingresso(mpb_ao_vivo, mpb_ao_vivo.getPrecoIngresso());
+        cliente1.comprarPorEmail(ingresso_mpb, "baladaeventos@mail.com");
+
+        Evento festival_inverno = organizadora1.buscarEventos(new EventoPorNomeFilter("Festival de Inverno")).get(0);
+        Ingresso ingresso_festival = new Ingresso(festival_inverno, festival_inverno.getPrecoIngresso());
+        cliente1.comprarPorEmail(ingresso_festival, "baladaeventos@mail.com");
+
+        System.out.println("> Buscando evento: Evento em Bar do Zé");
+        Evento evento_bar_do_ze = organizadora1.buscarEventos(new EventoPorLocalFilter("Bar do Zé")).get(0);
+
 
         // DEMONSTRAÇÃO 4: 
 

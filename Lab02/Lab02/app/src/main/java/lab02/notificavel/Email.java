@@ -27,7 +27,7 @@ public class Email extends Visualizavel implements Notificavel {
     @Override
     public void notificar() {
         if (this.getStatus()==false) {
-            System.out.println("Novo email:");
+            System.out.println("<NOTIFICACAO> Novo email:");
             System.out.println("Remetente: "    + this.remetente);
             System.out.println("Destinatario: " + this.destinatario);
             System.out.println();

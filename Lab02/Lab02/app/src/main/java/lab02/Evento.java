@@ -33,11 +33,10 @@ public abstract class Evento {
         this.caracteriscas = new ArrayList<>();
     }
 
-    public void venderIngresso(Cliente cliente) throws IngressoEsgotadoException {
+    public void venderIngresso(Cliente cliente, Ingresso ingresso) throws IngressoEsgotadoException {
         if(this.getIngressosDisponiveis() == 0) {
             throw new IngressoEsgotadoException("Ingressos esgotados para o evento " + this.nome);
         } 
-        Ingresso ingresso = new Ingresso(this, precoIngresso);
         cliente.adicionarIngresso(ingresso);
         this.ingressos_disponiveis--;
     }

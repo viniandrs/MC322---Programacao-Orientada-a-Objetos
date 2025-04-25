@@ -4,8 +4,8 @@ import lab02.Evento;
 public class EventoPorNomeFilter implements Filter<Evento> {
     private final String nomeDoEvento;
 
-    public EventoPorNomeFilter(Evento evento) {
-        this.nomeDoEvento = evento.getNome();
+    public EventoPorNomeFilter(String nome) {
+        this.nomeDoEvento = nome;
     }
 
     @Override
