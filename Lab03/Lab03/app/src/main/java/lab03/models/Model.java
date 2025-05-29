@@ -186,8 +186,14 @@ public class Model {
         return true;
     }
 
-    public List<Evento> getEventos() {
-        return eventos;
+    /**
+     * Método para simular a venda de um ingresso no Marketplace
+     * @param oferta a oferta de ingresso a ser vendida
+     */
+    public void simularVenda(OfertaIngresso oferta) {
+        // Simula a venda de um ingresso, removendo-o da lista de ingressos do usuário
+        meusIngressos.removeIf(ingresso -> ingresso.getEvento().equals(oferta.getEvento()));
+        this.saldo += oferta.getPreco();
     }
 
     /**
@@ -203,6 +209,10 @@ public class Model {
             }
         }
         return eventosFiltrados;
+    }
+
+    public List<Evento> getEventos() {
+        return eventos;
     }
 
     public List<Ingresso> getMeusIngressos() {

@@ -124,7 +124,18 @@ public class MarketplaceController {
 
     @FXML
     private void handleSimulateSale() {
-        // TODO
+        OfertaIngresso selectedOffer = offerTable.getSelectionModel().getSelectedItem();
+        if (selectedOffer == null) {
+            return; // Nenhuma oferta selecionada
+        }
+        
+        try {
+            MarketplaceModel.getInstance().simularVenda(selectedOffer);
+            updateSaldo();
+            updateOffers(); 
+        } catch (Exception e) {
+            mostrarErro("Erro durante simulação de venda de ingresso: " + e.getMessage());
+        }
     }
 
     private void mostrarErro(String mensagem) {

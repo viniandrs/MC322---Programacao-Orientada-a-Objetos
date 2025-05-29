@@ -72,6 +72,7 @@ public class MarketplaceModel {
         this.ofertas.add(oferta);
     }
 
+    // Method to buy a ticket from the marketplace
     public void comprarIngresso(OfertaIngresso oferta) throws Exception {
         Model model = Model.getInstance();
 
@@ -86,6 +87,17 @@ public class MarketplaceModel {
         }
 
         model.comprarIngresso(oferta);
+        ofertas.remove(oferta); // Remove the offer from the marketplace
+    }
+
+    // Method to simulate a sale of a ticket from an offer created by the user
+    public void simularVenda(OfertaIngresso oferta) throws Exception {
+        // check if the offer is from the user
+        if (!oferta.isCreatedByUser()) {
+            throw new Exception("Você não pode simular a venda de um ingresso que não foi criado por você.");
+        }
+
+        Model.getInstance().simularVenda(oferta);
         ofertas.remove(oferta); // Remove the offer from the marketplace
     }
 
