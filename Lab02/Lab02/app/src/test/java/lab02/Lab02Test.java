@@ -71,7 +71,7 @@ public class Lab02Test {
         this.testCliente.comprarPorEmail(this.testIng, "vinicius@mail.com"); 
         Email mail = this.testCliente.getEmails().get(0);
         mail.visualizar();
-        assertEquals(true, mail.getStatus());
+        assertEquals(true, mail.getReadStatus());
     }
 
     /**

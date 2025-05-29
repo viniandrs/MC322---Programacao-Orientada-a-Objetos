@@ -1,6 +1,6 @@
 package lab02.notificavel;
 
-public class SMS extends Visualizavel implements Notificavel {
+public class SMS extends Mensagem implements Notificavel {
     private final String numero_remetente;
     private final String numero_destinatario;
     private final String conteudo;
@@ -18,7 +18,7 @@ public class SMS extends Visualizavel implements Notificavel {
 
     @Override
     public void visualizar() {
-        this.setStatus(true);
+        this.setReadStatus(true);
         System.out.println("Email:");
         System.out.println("Remetente: "    + this.numero_remetente);
         System.out.println("Destinatario: " + this.numero_destinatario);
@@ -28,7 +28,7 @@ public class SMS extends Visualizavel implements Notificavel {
 
     @Override
     public void notificar() {
-        if (this.getStatus()== false) {
+        if (this.getReadStatus()== false) {
             System.out.println("Novo SMS:");
             System.out.println("Remetente: "    + this.numero_remetente);
             System.out.println("Destinatario: " + this.numero_destinatario);

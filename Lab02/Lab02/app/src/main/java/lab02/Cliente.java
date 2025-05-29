@@ -63,15 +63,16 @@ public class Cliente implements Comparable<Cliente> {
      * @throws CancelamentoNaoPermitidoException se o cancelamento não for permitido
      */
     public boolean cancelarIngresso(Evento evento) throws IngressoNaoEncontradoException, CancelamentoNaoPermitidoException {
-        Ingresso ingressoEncontrado = ingressos.stream()
-            .filter(ing -> ing.getEvento().equals(evento)).collect(Collectors.toList()).get(0);
-        if(ingressoEncontrado==null) {
-            throw new IngressoNaoEncontradoException("Ingresso não encontrado");
-        }
-        if(this.removerIngresso(ingressoEncontrado) == false) {
+        if (ingressos.isEmpty()) { throw new IngressoNaoEncontradoException("Nenhum ingresso encontrado"); }
+
+        List<Ingresso> ingressosEncontrados = ingressos.stream().filter(ing -> ing.getEvento().equals(evento)).collect(Collectors.toList());
+        if(ingressosEncontrados.isEmpty()) { throw new IngressoNaoEncontradoException("Ingresso não encontrado"); }
+        
+        Ingresso ingresso_a_cancelar = ingressosEncontrados.get(0);
+        if(this.removerIngresso(ingresso_a_cancelar) == false) {
             throw new CancelamentoNaoPermitidoException("Cancelamento não permitido"); // Pensar em caso de teste para essa condicao
         }
-        return this.removerIngresso(ingressoEncontrado);
+        return this.removerIngresso(ingresso_a_cancelar);
     }
 
     /**
@@ -110,33 +111,48 @@ public class Cliente implements Comparable<Cliente> {
     }
 
     /**
-     * Compara se o cliente fornecido possui ingressos para os mesmos eventos que este cliente.
+     * Compara se o cliente fornecido possui ingressos para os mesmos eventos que este cliente. Não é necessário
+     * que os clientes possuam os mesmos ingressos, apenas que os ingressos do cliente fornecido contenham os eventos
+     * deste cliente.
      * @param cliente o cliente a ser comparado
-     * @return true se o cliente possui ingressos para os mesmos eventos, false caso contrário
+     * @return true se os clientes possuem ingressos para os mesmos eventos, false caso um dos clientes possua um ingresso
+     * para um evento que o outro não possui
      */
     @Override
     public boolean compareTo(Cliente cliente) {
-        HashSet<String> myEventos = new HashSet<>();
+        HashSet<String> ingressosCliente1 = new HashSet<>();
+        HashSet<String> ingressosCliente2 = new HashSet<>();
 
-        // criando um set com os eventos do cliente
-        for(Ingresso myIngresso: this.ingressos){
-            myEventos.add(myIngresso.getEvento().getNome());
+        for (Ingresso ingresso : this.ingressos) {
+            ingressosCliente1.add(ingresso.getEvento().getNome());
+        }
+        for (Ingresso ingresso : cliente.getIngressos()) {
+            ingressosCliente2.add(ingresso.getEvento().getNome());
         }
 
-        // verificando se o cliente possui ingressos para os mesmos eventos
-        for(Ingresso otherIngresso: cliente.getIngressos()){
-            if(!myEventos.contains(otherIngresso.getEvento().getNome())){
+        // Se os tamanhos dos conjuntos forem diferentes, os clientes não possuem ingressos para os mesmos eventos
+        if (ingressosCliente1.size() != ingressosCliente2.size()) {
+            return false;
+        }
+
+        // Verificação bijetiva da contenção dos conjuntos
+        for (String evento : ingressosCliente1) {
+            if (!ingressosCliente2.contains(evento)) {
                 return false;
             }
         }
-
+        for (String evento : ingressosCliente2) {
+            if (!ingressosCliente1.contains(evento)) {
+                return false;
+            }
+        }
         return true;
     }   
 
     public void listarIngressos() {
         System.out.println("Ingressos do cliente " + this.nome + ":");
         for (Ingresso ingresso : this.ingressos) {
-            System.out.println("> " + ingresso);
+            System.out.println("> " + ingresso.getEvento().getNome() + " - " + ingresso.getEvento().getLocal().getNome() + " - " + ingresso.getEvento().getData());
         }
     }
 

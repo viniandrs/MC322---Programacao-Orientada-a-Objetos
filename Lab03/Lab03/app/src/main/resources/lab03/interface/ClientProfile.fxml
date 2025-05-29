@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!-- Este arquivo foi criado por IA -->
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="lab03.controllers.ClientProfileController"
+      spacing="10" style="-fx-padding: 10;">
+    
+    <Label text="Meus ingressos:" />
+    <ListView fx:id="ticketsListView" prefHeight="200" />
+    
+    <!-- <Label text="Detalhes do Cliente:" /> -->
+    <TextArea fx:id="ticketDetailsArea" prefHeight="200" wrapText="true" editable="false"/>
+</VBox>

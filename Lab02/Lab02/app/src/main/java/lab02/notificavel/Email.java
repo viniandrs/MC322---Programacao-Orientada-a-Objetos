@@ -1,6 +1,6 @@
 package lab02.notificavel;
 
-public class Email extends Visualizavel implements Notificavel {
+public class Email extends Mensagem implements Notificavel {
     private final String remetente;
     private final String destinatario;
     private final String assunto;
@@ -15,7 +15,7 @@ public class Email extends Visualizavel implements Notificavel {
 
     @Override
     public void visualizar() {
-        this.setStatus(true);
+        this.setReadStatus(true);
         System.out.println("Email:");
         System.out.println("Remetente: "    + this.remetente);
         System.out.println("Destinatario: " + this.destinatario);
@@ -26,7 +26,7 @@ public class Email extends Visualizavel implements Notificavel {
 
     @Override
     public void notificar() {
-        if (this.getStatus()==false) {
+        if (this.getReadStatus()==false) {
             System.out.println("<NOTIFICACAO> Novo email:");
             System.out.println("Remetente: "    + this.remetente);
             System.out.println("Destinatario: " + this.destinatario);

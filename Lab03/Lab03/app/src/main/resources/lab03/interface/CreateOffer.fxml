@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!-- Arquivo gerado por IA -->
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="lab03.controllers.CreateOfferController"
+            prefWidth="700" prefHeight="400">
+
+    <center>
+        <HBox spacing="20" style="-fx-padding: 20;">
+            
+            <!-- Lista de ingressos do usuário -->
+            <VBox spacing="10" prefWidth="300">
+                <Label text="Seus ingressos disponíveis:" style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+                <ListView fx:id="ticketListView" prefHeight="300" />
+            </VBox>
+
+            <!-- Área de criação da oferta -->
+            <VBox spacing="15" prefWidth="300">
+                <Label text="Criar Nova Oferta" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+                <Label text="Preço do ingresso:" />
+                <TextField fx:id="priceField" promptText="Digite o preço" />
+
+                <Label text="Nome do vendedor:" />
+                <TextField fx:id="sellerNameField" promptText="Digite seu nome" />
+
+                <Button text="Confirmar Oferta" onAction="#handleCreateOffer" style="-fx-padding: 8 16;" />
+            </VBox>
+
+        </HBox>
+    </center>
+
+</BorderPane>

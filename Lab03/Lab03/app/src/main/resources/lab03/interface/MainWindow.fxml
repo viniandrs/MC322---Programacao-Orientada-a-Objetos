@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<!-- Foi utilizada uma IA para obter o FXML a partir de uma descrição dos elementos desejados na interface -->
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="lab03.controllers.MainController">
+
+    <!-- Top: Button with Clients menu -->
+    <top>
+        <HBox spacing="10" style="-fx-padding: 10;">
+            <Button text="Meu perfil" onAction="#loadClientProfile" />
+            <Button text="Marketplace" onAction="#loadMarketplace" />
+            <Label fx:id="saldo" text="Saldo: R$ 0,00" style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+        </HBox>
+    </top>
+
+    <!-- Main tab area -->
+    <center>
+        <BorderPane>
+            <!-- Left side: Event list -->
+            <left>
+                <VBox spacing="10" style="-fx-padding: 0 5 10 10;">
+                    <Label text="Eventos Disponíveis" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+                    <ListView fx:id="eventListView" prefWidth="300" />
+                </VBox>
+            </left>
+        
+            <!-- Right side: Event details as single TextArea -->
+            <center>
+                <VBox spacing="10" style="-fx-padding: 0 10 10 5;">
+                    <Label text="Detalhes do Evento" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+                    <TextArea fx:id="eventDetailsArea"
+                              editable="false"
+                              wrapText="true"
+                              prefRowCount="10"
+                              style="-fx-font-size: 14px;" />
+                    <Button text="Comprar ingresso"
+                            fx:id="comprarIngressoButton"
+                            onAction="#comprarIngresso"
+                            style="-fx-font-size: 14px; -fx-padding: 6 12;" />
+                </VBox>
+            </center>
+        </BorderPane>
+    </center>
+
+</BorderPane>
