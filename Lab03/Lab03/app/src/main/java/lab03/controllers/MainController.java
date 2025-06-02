@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -43,9 +45,8 @@ public class MainController {
 
     @FXML
     private void initialize() {
-        Model model = Model.getInstance();
-        model.loadData();
-        updateSaldo();
+        // set method to show details of the selected event in the list
+        eventListView.setOnMouseClicked(this::handleEventSelection);
 
         // customize the list view to show a formatted event name and date
         eventListView.setCellFactory(lv -> new javafx.scene.control.ListCell<>() {
@@ -61,11 +62,18 @@ public class MainController {
             }
         });
 
+        Model model = Model.getInstance();
+        model.loadData();
+        updateState();
+    }
+
+    private void updateList() {
+        // clear the current items in the list view
+        eventListView.getItems().clear();
+
         // Populate the list view
+        Model model = Model.getInstance();
         eventListView.getItems().addAll(model.getEventos());
-        
-        // Show details when an event is selected
-        eventListView.setOnMouseClicked(this::handleEventSelection);
     }
 
     private void handleEventSelection(MouseEvent event) {
@@ -106,6 +114,12 @@ public class MainController {
         }
     }
 
+    @FXML
+    private void updateState() {
+        updateList();
+        updateSaldo();
+    }
+
     private void updateSaldo() {
         double updatedSaldo = Model.getInstance().getSaldo();
         this.saldo.setText(String.format("Saldo: R$ %.2f", updatedSaldo));
@@ -120,13 +134,29 @@ public class MainController {
         }
         
         Model model = Model.getInstance();
-        boolean sucesso = model.comprarIngresso(eventoSelecionado);
-        if (sucesso) {
-            eventDetailsArea.setText("Ingresso comprado com sucesso!");
+        try {
+            model.comprarIngresso(eventoSelecionado);
             updateSaldo();
-        } else {
-            eventDetailsArea.setText("Erro ao comprar ingresso. Verifique seu saldo.");
-        }
+            mostrarMensagem("Ingresso comprado com sucesso para o evento: " + eventoSelecionado.getNome());
+        } catch (Exception e) {
+            mostrarErro("Erro ao comprar ingresso: " + e.getMessage());
+        }   
+    }
+
+    private void mostrarErro(String mensagem) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Erro");
+        alert.setHeaderText(null);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
+    }
+
+    private void mostrarMensagem(String mensagem) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Confirmação");
+        alert.setHeaderText(null);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
     }
 
 }

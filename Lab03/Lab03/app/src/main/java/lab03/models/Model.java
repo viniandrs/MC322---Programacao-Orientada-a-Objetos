@@ -162,17 +162,14 @@ public class Model {
      * @param evento o evento para o qual o ingresso será comprado
      * @return true se a compra for bem-sucedida, false caso contrário
      */
-    public boolean comprarIngresso(Evento evento) {
+    public void comprarIngresso(Evento evento) throws Exception {
         if (evento.getPrecoIngresso() > this.saldo) {
-            System.out.println("Saldo insuficiente para comprar o ingresso.");
-            return false;
+            throw new Exception("Saldo insuficiente para comprar o ingresso.");
         }
 
         Ingresso ingresso = new Ingresso(evento, evento.getPrecoIngresso());
         this.meusIngressos.add(ingresso);
-        this.saldo -= evento.getPrecoIngresso();
-
-        return true;        
+        this.saldo -= evento.getPrecoIngresso();       
     }
 
     /**

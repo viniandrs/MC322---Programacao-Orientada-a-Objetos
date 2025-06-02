@@ -13,6 +13,7 @@
         <HBox spacing="10" style="-fx-padding: 10;">
             <Button text="Meu perfil" onAction="#loadClientProfile" />
             <Button text="Marketplace" onAction="#loadMarketplace" />
+            <Button text="Atualizar" onAction="#updateState" />
             <Label fx:id="saldo" text="Saldo: R$ 0,00" style="-fx-font-size: 14px; -fx-font-weight: bold;" />
         </HBox>
     </top>
