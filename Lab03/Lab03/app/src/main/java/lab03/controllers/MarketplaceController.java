@@ -47,7 +47,7 @@ public class MarketplaceController {
     public void initialize() {
         updateSaldo();
 
-        // Define o valor que será exibido em cada coluna
+        // Define os factory methods para as colunas da tabela
         eventNameColumn.setCellValueFactory(cellData ->
             new javafx.beans.property.SimpleStringProperty(cellData.getValue().getEvento().getNome())
         );
@@ -60,30 +60,28 @@ public class MarketplaceController {
             new javafx.beans.property.SimpleObjectProperty<>(cellData.getValue().getPreco())
         );
 
-        // Carrega dados fictícios ou do modelo
+        // Carrega dados do modelo
         updateOffers();
 
         // Vincula os dados à tabela
         offerTable.setItems(offers);
-
-        // // Configurando o duplo clique para abrir compra
-        // offerTable.setRowFactory(tv -> {
-        //     TableRow<OfertaIngresso> row = new TableRow<>();
-        //     row.setOnMouseClicked(event -> {
-        //         if (event.getClickCount() == 2 && (!row.isEmpty())) {
-        //             OfertaIngresso clickedOffer = row.getItem();
-        //             openPurchaseTab(clickedOffer);
-        //         }
-        //     });
-        //     return row;
-        // });
     }
 
     public void updateOffers() {
-        // Aqui você pode carregar dados reais do modelo (exemplo fictício)
-        this.offers.clear();
-        MarketplaceModel marketplaceModel = MarketplaceModel.getInstance();
-        this.offers.addAll(marketplaceModel.getOfertas());
+        // clear old data
+        offers.clear();
+
+        // insert updated data
+        try {
+            offers.addAll(MarketplaceModel.getInstance().getOfertas());
+        } catch (Exception e) {
+            mostrarErro("Erro ao carregar ofertas: " + e.getMessage());
+        }
+    }
+
+    private void updateSaldo() {
+        double updatedSaldo = Model.getInstance().getSaldo();
+        this.saldo.setText(String.format("Saldo: R$ %.2f", updatedSaldo));
     }
 
     @FXML
@@ -99,11 +97,6 @@ public class MarketplaceController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void updateSaldo() {
-        double updatedSaldo = Model.getInstance().getSaldo();
-        this.saldo.setText(String.format("Saldo: R$ %.2f", updatedSaldo));
     }
 
     @FXML
@@ -136,6 +129,12 @@ public class MarketplaceController {
         } catch (Exception e) {
             mostrarErro("Erro durante simulação de venda de ingresso: " + e.getMessage());
         }
+    }
+
+    @FXML
+    private void updateState() {
+        updateOffers();
+        updateSaldo();
     }
 
     private void mostrarErro(String mensagem) {

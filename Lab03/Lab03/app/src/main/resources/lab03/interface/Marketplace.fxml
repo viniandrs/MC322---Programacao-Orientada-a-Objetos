@@ -27,6 +27,7 @@
                 <Button text="Criar Oferta" onAction="#handleCreateOffer" />
                 <Button text="Comprar ingresso" onAction="#handlePurchase" />
                 <Button text="Simular Venda" onAction="#handleSimulateSale" />
+                <Button text="Atualizar" onAction="#updateState" />
             </HBox>
         </VBox>
     </center>
